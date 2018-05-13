@@ -118,6 +118,39 @@ func lengthOfLongestSubstring(_ s: String) -> Int {
     return maxLen
 }
 
+//4. 两个排序数组的中位数
+//给定两个大小为 m 和 n 的有序数组 nums1 和 nums2 。
+//
+//    请找出这两个有序数组的中位数。要求算法的时间复杂度为 O(log (m+n)) 。
+//
+//示例 1:
+//
+//nums1 = [1, 3]
+//nums2 = [2]
+//
+//中位数是 2.0
+//示例 2:
+//
+//nums1 = [1, 2]
+//nums2 = [3, 4]
+//
+//中位数是 (2 + 3)/2 = 2.5
+
+func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
+    var num3 = nums1 + nums2
+    num3 = num3.sorted(by: { (s1, s2) -> Bool in
+        return s1 < s2
+    })
+    if num3.count <= 1 {
+        return Double(num3.first!)
+    }
+    if num3.count % 2 == 1{
+        return Double(num3[(num3.count / 2)])
+    }
+    let location = num3.count / 2
+    return Double((num3[location] + num3[location - 1])) / Double(2)
+}
+
 
 
 
