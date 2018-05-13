@@ -33,10 +33,6 @@ import Foundation
     }
 //}
 
-
-
-
-
 /* 2.两数相加
  *给定两个非空链表来表示两个非负整数。位数按照逆序方式存储，它们的每个节点只存储单个数字。将两数相加返回一个新的链表。
  *
@@ -99,30 +95,28 @@ public class ListNode {
 *给定 "pwwkew" ，最长子串是 "wke" ，长度是3。请注意答案必须是一个子串，"pwke" 是 子序列  而不是子串。
 */
 func lengthOfLongestSubstring(_ s: String) -> Int {
-    if s.count == 0 || s.count == 1 {return s.count}
-    var a = String(s.first!)
-    var count = 0
-    var ss = s
-    for _ in ss {
-        ss.removeFirst()
-        for cc in ss {
-            if a.contains(cc) {
-//                if a.count > count {count = a.count}
-                break
-            } else {
-                a = a + "\(cc)"
-            }
-            if a.count > count {count = a.count}
-        }
-        if count >= ss.count {break}
-        a = String(ss.first!)
+    if s == "" {
+        return 0
     }
-    return count
+    if s.count == 0 || s.count == 1 {
+        return s.count
+    }
+    let ss = NSString(string: s)
+    var barrier = 0
+    var maxLen = 1
+    for (n, _) in s.enumerated() {
+        var j = n - 1
+        while j >= barrier {
+            if ss.substring(with: NSRange(location: n, length: 1)) == ss.substring(with: NSRange(location: j, length: 1)) {
+                barrier = j + 1
+                break
+            }
+            j = j - 1
+        }
+        maxLen = maxLen > n - barrier + 1 ? maxLen : n - barrier + 1
+    }
+    return maxLen
 }
-
-let a = lengthOfLongestSubstring("abcabcbb")
-print(a)
-
 
 
 
