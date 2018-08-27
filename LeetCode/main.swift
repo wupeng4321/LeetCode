@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 /*1. 两数之和
 *给定一个整数数组和一个目标值，找出数组中和为目标值的两个数。
 
@@ -19,7 +20,7 @@ import Foundation
 *因为 nums[0] + nums[1] = 2 + 7 = 9
 *所以返回 [0, 1]
 */
-//class Solution {
+class Solution {
     func twoSum(_ nums: [Int], _ target: Int) -> [Int] {
         for (n, c) in nums.enumerated() {
             let odd = target - c
@@ -31,7 +32,8 @@ import Foundation
         }
         return []
     }
-//}
+}
+
 
 /* 2.两数相加
  *给定两个非空链表来表示两个非负整数。位数按照逆序方式存储，它们的每个节点只存储单个数字。将两数相加返回一个新的链表。
@@ -150,6 +152,83 @@ func findMedianSortedArrays(_ nums1: [Int], _ nums2: [Int]) -> Double {
     let location = num3.count / 2
     return Double((num3[location] + num3[location - 1])) / Double(2)
 }
+
+
+//5.判断一个整数是否是回文数。回文数是指正序（从左向右）和倒序（从右向左）读都是一样的整数。
+//示例 1:
+
+//输入: 121
+//输出: true
+
+    func isPalindrome(_ x: Int) -> Bool {
+        let  a: String = String(x)
+        for n in 0 ..< (a.count / 2 + a.count % 2) {
+            let startIndex = a.index(a.startIndex, offsetBy: n)
+            let endIndex   = a.index(a.startIndex, offsetBy: n + 1)
+            let aa = a[startIndex ..< endIndex];
+            
+            let startIndex1 = a.index(a.startIndex, offsetBy: a.count - n - 1)
+            let endIndex1   = a.index(a.startIndex, offsetBy: a.count - n)
+            let aa1 = a[startIndex1 ..< endIndex1];
+            if (aa != aa1) {
+                return false
+            }
+        }
+        return true;
+    }
+
+//234. 回文链表
+//
+//请判断一个链表是否为回文链表。
+//
+//
+//示例 1:
+//
+//输入: 1->2
+//输出: false
+//
+//
+//示例 2:
+//
+//输入: 1->2->2->1
+//输出: true
+//
+//进阶：
+//你能否用 O(n) 时间复杂度和 O(1) 空间复杂度解决此题？
+
+func isPalindrome(_ head: ListNode?) -> Bool {
+//    遍历链表,用数组存储
+    var cacheHead = head
+    var a : Array<Int> = []
+    //如果只有一个节点
+    if cacheHead?.next == nil {
+        return true
+    }
+    a.append((cacheHead?.val)!)
+    while ((cacheHead?.next) != nil) {
+        a.append((cacheHead?.next?.val)!)
+        cacheHead = cacheHead?.next
+    }
+    for n in 0 ..< a.count {
+        let same = a[n] == a[a.count - n - 1]
+        if (!same) {
+            return false
+        }
+    }
+    return true
+}
+
+var a = ListNode(1)
+var b = ListNode(2)
+var c = ListNode(1)
+var d = ListNode(4)
+
+a.next = b
+b.next = c
+c.next = d
+
+print(isPalindrome(a) ? "yes" : "no")
+
 
 
 
