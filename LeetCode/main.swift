@@ -218,16 +218,276 @@ func isPalindrome(_ head: ListNode?) -> Bool {
     return true
 }
 
-var a = ListNode(1)
-var b = ListNode(2)
-var c = ListNode(1)
-var d = ListNode(4)
+//var a = ListNode(1)
+//var b = ListNode(2)
+//var c = ListNode(1)
+//var d = ListNode(4)
+//
+//a.next = b
+//b.next = c
+//c.next = d
+//
+//print(isPalindrome(a) ? "yes" : "no")
 
-a.next = b
-b.next = c
-c.next = d
 
-print(isPalindrome(a) ? "yes" : "no")
+
+//判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。
+//
+//数字 1-9 在每一行只能出现一次。
+//数字 1-9 在每一列只能出现一次。
+//数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+//
+//
+//上图是一个部分填充的有效的数独。
+//
+//数独部分空格内已填入了数字，空白格用 '.' 表示。
+//
+//示例 1:
+//
+//输入:
+//[
+//["5","3",".",".","7",".",".",".","."],
+//["6",".",".","1","9","5",".",".","."],
+//[".","9","8",".",".",".",".","6","."],
+//["8",".",".",".","6",".",".",".","3"],
+//["4",".",".","8",".","3",".",".","1"],
+//["7",".",".",".","2",".",".",".","6"],
+//[".","6",".",".",".",".","2","8","."],
+//[".",".",".","4","1","9",".",".","5"],
+//[".",".",".",".","8",".",".","7","9"]
+//]
+//输出: true
+//示例 2:
+//
+//输入:
+//[
+//["8","3",".",".","7",".",".",".","."],
+//["6",".",".","1","9","5",".",".","."],
+//[".","9","8",".",".",".",".","6","."],
+//["8",".",".",".","6",".",".",".","3"],
+//["4",".",".","8",".","3",".",".","1"],
+//["7",".",".",".","2",".",".",".","6"],
+//[".","6",".",".",".",".","2","8","."],
+//[".",".",".","4","1","9",".",".","5"],
+//[".",".",".",".","8",".",".","7","9"]
+//]
+//输出: false
+//解释: 除了第一行的第一个数字从 5 改为 8 以外，空格内其他数字均与 示例1 相同。
+//但由于位于左上角的 3x3 宫内有两个 8 存在, 因此这个数独是无效的。
+//说明:
+//
+//一个有效的数独（部分已被填充）不一定是可解的。
+//只需要根据以上规则，验证已经填入的数字是否有效即可。
+//给定数独序列只包含数字 1-9 和字符 '.' 。
+//给定数独永远是 9x9 形式的。
+
+func isValidSudoku(_ board: [[Character]]) -> Bool {
+    
+    //判断一个数组
+    func isValidArray(_ arr: [Character]) -> Bool {
+        //用一个字典存储.key : 0 ... 9,判断唯一性
+        var a = Dictionary<Character, Any>()
+        for n in arr {
+            if n != "." {
+                if a[n] == nil {
+                    a[n] = "1"
+                } else {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
+    //验证行
+    for n in board {
+        let valid = isValidArray(n)
+        if (!valid) {
+            return false
+        }
+    }
+    
+    //验证列
+    let aa:Character = "ss".first!
+    
+    var row: Array<Character> = [aa, aa, aa, aa, aa, aa, aa, aa, aa]
+    for n in 0 ..< 9 {
+        for (index, item) in board.enumerated() {
+            let cc = item[n]
+            row[index] = cc
+            if (index == 8) {
+                let valid = isValidArray(row)
+                if (!valid) {
+                    return false
+                }
+            }
+        }
+    }
+
+    //验证9宫格
+    //遍历三次每次取出三个数组
+    for n in 0 ..< 3 {
+        let aa = board[0 + n * 3]
+        let bb = board[1 + n * 3]
+        let cc = board[2 + n * 3]
+        for nn in 0 ..< 3 {
+            row[0] = aa[0 + nn * 3]
+            row[1] = aa[1 + nn * 3]
+            row[2] = aa[2 + nn * 3]
+            row[3] = bb[0 + nn * 3]
+            row[4] = bb[1 + nn * 3]
+            row[5] = bb[2 + nn * 3]
+            row[6] = cc[0 + nn * 3]
+            row[7] = cc[1 + nn * 3]
+            row[8] = cc[2 + nn * 3]
+            let valid = isValidArray(row)
+            if (!valid) {
+                return false
+            }
+        }
+    }
+    return true
+}
+
+var a = [
+    ["8","3",".",".","7",".",".",".","."],
+    ["6",".",".","1","9","5",".",".","."],
+    [".","9","8",".",".",".",".","6","."],
+    ["8",".",".",".","6",".",".",".","3"],
+    ["4",".",".","8",".","3",".",".","1"],
+    ["7",".",".",".","2",".",".",".","6"],
+    [".","6",".",".",".",".","2","8","."],
+    [".",".",".","4","1","9",".",".","5"],
+    [".",".",".",".","8",".",".","7","9"]
+]
+
+var b = [[".".first!,".".first!,"4".first!,".".first!,".".first!,".".first!,"6".first!,"3".first!,".".first!],
+         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+         ["5".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,"9".first!,".".first!],
+         [".".first!,".".first!,".".first!,"5".first!,"6".first!,".".first!,".".first!,".".first!,".".first!],
+         ["4".first!,".".first!,"3".first!,".".first!,".".first!,".".first!,".".first!,".".first!,"1".first!],
+         [".".first!,".".first!,".".first!,"7".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+         [".".first!,".".first!,".".first!,"5".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!]
+] as [[Character]]
+
+//var testa = isValidSudoku(b)
+//if testa {
+//    print("yes")
+//} else {
+//    print("no")
+//}
+
+//37. 解数独
+//
+//编写一个程序，通过已填充的空格来解决数独问题。
+//
+//一个数独的解法需遵循如下规则：
+//
+//数字 1-9 在每一行只能出现一次。
+//数字 1-9 在每一列只能出现一次。
+//数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+//空白格用 '.' 表示。
+//
+//
+//
+//一个数独。
+//
+//
+//
+//答案被标成红色。
+
+//20. 有效的括号
+//
+//给定一个只包括 '('，')'，'{'，'}'，'['，']' 的字符串，判断字符串是否有效。
+//
+//有效字符串需满足：
+//
+//左括号必须用相同类型的右括号闭合。
+//左括号必须以正确的顺序闭合。
+//注意空字符串可被认为是有效字符串。
+//
+//示例 1:
+//
+//输入: "()"
+//输出: true
+//示例 2:
+//
+//输入: "()[]{}"
+//输出: true
+//示例 3:
+//
+//输入: "(]"
+//输出: false
+//示例 4:
+//
+//输入: "([)]"
+//输出: false
+//示例 5:
+//
+//输入: "{[]}"
+//输出: true
+
+
+//这个方法是判断条件是 合格的,但是合格的要求比较多,容易复杂
+//所以用不合格的来筛选,会方便很多
+//func isValid(_ s: String) -> Bool {
+//
+//    //检查 是否含有 () [] {}
+//    //如果有的话, 删除() [] {}
+//    //重复上述步骤,直到length为0,如果不为0,返回faluse
+//    //如果没有,返回faluse
+//    var ss = s
+//
+//    if (ss.count % 2) == 1 {return false}
+//
+//    func canDeleteS(sss : String) -> (Bool, String) {
+//        var a = sss
+//        if a.contains("()") {
+//            let range = a.range(of: "()")
+//            a.removeSubrange(range!)
+//            return (true, a)
+//        }
+//        if a.contains("[]") {
+//            let range = a.range(of: "[]")
+//            a.removeSubrange(range!)
+//            return (true, a)
+//        }
+//        if a.contains("{}") {
+//            let range = a.range(of: "{}")
+//            a.removeSubrange(range!)
+//            return (true, a)
+//        }
+//        return (false, a)
+//    }
+//
+//    while ss.count != 0 {
+//        let cc = canDeleteS(sss: ss)
+//        if (cc.0) {
+//            ss = cc.1
+//        } else {
+//            return false
+//        }
+//    }
+//    return ss.count > 0 ? false : true
+//
+//}
+
+func isValid(_ s: String) -> Bool {
+    return true
+}
+
+let aa = "([)]"
+let bb = "[({})]"
+
+if(isValid(bb)) {
+    print("yes")
+} else {
+    print("no")
+}
+
+
 
 
 
