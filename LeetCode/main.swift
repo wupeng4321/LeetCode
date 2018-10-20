@@ -349,28 +349,28 @@ func isValidSudoku(_ board: [[Character]]) -> Bool {
     return true
 }
 
-var a = [
-    ["8","3",".",".","7",".",".",".","."],
-    ["6",".",".","1","9","5",".",".","."],
-    [".","9","8",".",".",".",".","6","."],
-    ["8",".",".",".","6",".",".",".","3"],
-    ["4",".",".","8",".","3",".",".","1"],
-    ["7",".",".",".","2",".",".",".","6"],
-    [".","6",".",".",".",".","2","8","."],
-    [".",".",".","4","1","9",".",".","5"],
-    [".",".",".",".","8",".",".","7","9"]
-]
-
-var b = [[".".first!,".".first!,"4".first!,".".first!,".".first!,".".first!,"6".first!,"3".first!,".".first!],
-         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
-         ["5".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,"9".first!,".".first!],
-         [".".first!,".".first!,".".first!,"5".first!,"6".first!,".".first!,".".first!,".".first!,".".first!],
-         ["4".first!,".".first!,"3".first!,".".first!,".".first!,".".first!,".".first!,".".first!,"1".first!],
-         [".".first!,".".first!,".".first!,"7".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
-         [".".first!,".".first!,".".first!,"5".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
-         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
-         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!]
-] as [[Character]]
+//var a = [
+//    ["8","3",".",".","7",".",".",".","."],
+//    ["6",".",".","1","9","5",".",".","."],
+//    [".","9","8",".",".",".",".","6","."],
+//    ["8",".",".",".","6",".",".",".","3"],
+//    ["4",".",".","8",".","3",".",".","1"],
+//    ["7",".",".",".","2",".",".",".","6"],
+//    [".","6",".",".",".",".","2","8","."],
+//    [".",".",".","4","1","9",".",".","5"],
+//    [".",".",".",".","8",".",".","7","9"]
+//]
+//
+//var b = [[".".first!,".".first!,"4".first!,".".first!,".".first!,".".first!,"6".first!,"3".first!,".".first!],
+//         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+//         ["5".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,"9".first!,".".first!],
+//         [".".first!,".".first!,".".first!,"5".first!,"6".first!,".".first!,".".first!,".".first!,".".first!],
+//         ["4".first!,".".first!,"3".first!,".".first!,".".first!,".".first!,".".first!,".".first!,"1".first!],
+//         [".".first!,".".first!,".".first!,"7".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+//         [".".first!,".".first!,".".first!,"5".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+//         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!],
+//         [".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!,".".first!]
+//] as [[Character]]
 
 //var testa = isValidSudoku(b)
 //if testa {
@@ -474,21 +474,148 @@ var b = [[".".first!,".".first!,"4".first!,".".first!,".".first!,".".first!,"6".
 //
 //}
 
-func isValid(_ s: String) -> Bool {
+//func isValid(_ s: String) -> Bool {
+//    return true
+//}
+//
+//let aa = "([)]"
+//let bb = "[({})]"
+//
+//if(isValid(bb)) {
+//    print("yes")
+//} else {
+//    print("no")
+//}
+
+//98. 验证二叉搜索树
+//给定一个二叉树，判断其是否是一个有效的二叉搜索树。
+//
+//假设一个二叉搜索树具有如下特征：
+//
+//节点的左子树只包含小于当前节点的数。
+//节点的右子树只包含大于当前节点的数。
+//所有左子树和右子树自身必须也是二叉搜索树。
+ public class TreeNode {
+         public var val: Int
+         public var left: TreeNode?
+         public var right: TreeNode?
+         public init(_ val: Int) {
+            self.val = val
+            self.left = nil
+            self.right = nil
+        }
+}
+
+func isValidBST(_ root: TreeNode?) -> Bool {
+    if root != nil {
+        if root?.left != nil {
+            if (root?.left?.val)! > (root?.val)! {
+                return false
+            }
+        }
+        if root?.right != nil {
+            if (root?.right?.val)! < (root?.val)! {
+                return false
+            }
+        }
+        let left = isValidBST(root?.left)
+        let right = isValidBST(root?.right)
+        if !left {
+            return false
+        }
+        if !right {
+            return false
+        }
+        
+    }
+    
     return true
 }
 
-let aa = "([)]"
-let bb = "[({})]"
+var a = TreeNode(5)
+var b = TreeNode(1)
+var c = TreeNode(4)
+var d = TreeNode(3)
+var e = TreeNode(6)
 
-if(isValid(bb)) {
-    print("yes")
-} else {
-    print("no")
+a.left  = b
+a.right = c
+
+c.left  = d
+c.right = e
+
+print(isValidBST(a) ? "yes" : "no")
+
+//94. 二叉树的中序遍历
+func inorderTraversal(_ root: TreeNode?) -> [Int] {
+    var a:Array = [Int]()
+    
+    func inorder(_ root: TreeNode?) {
+        if root != nil {
+            inorder(root?.left)
+            a.append((root?.val)!)
+            inorder(root?.right)
+            
+        }
+    }
+    inorder(root)
+    return a
 }
 
+print(inorderTraversal(a))
 
 
+//59. 螺旋矩阵 II
+//给定一个正整数 n，生成一个包含 1 到 n2 所有元素，且元素按顺时针顺序螺旋排列的正方形矩阵。
+//
+//示例:
+//
+//输入: 3
+//输出:
+//[
+//[ 1, 2, 3 ],
+//[ 8, 9, 4 ],
+//[ 7, 6, 5 ]
+//]
+func generateMatrix(_ n: Int) -> [[Int]] {
+    var target = [[Int]]()
+    for _ in 0 ... n-1 {
+        target.append([Int](repeating: 0, count: n))
+    }
+    let a = n / 2 * 2 + 1;//保证边长为奇数
+    var y =  a / 2, x = a / 2;
+//    if n / 2 == 0 {
+//        y -= 1
+//        x -= 1
+//    }
+    
+    for i in (1 ... n * n).reversed() {
+        if (x<=a-y-1&&x>=y)
+        {
+            target[y][x] = i;
+            x -= 1;
+        }
+        else if (x>a-y-1&&x>=y)
+        {
+            target[y][x]=i;
+            y -= 1;
+        }
+        else if (x>=a-y-1&&x<y)
+        {
+            target[y][x]=i;
+            x += 1;
+        }
+        else if (x<a-y-1&&x<y)
+        {
+            target[y][x]=i;
+            y += 1;
+        }
+    }
+
+    return target
+}
+
+print(generateMatrix(2))
 
 
 
