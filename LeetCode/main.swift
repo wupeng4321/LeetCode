@@ -615,7 +615,212 @@ func generateMatrix(_ n: Int) -> [[Int]] {
     return target
 }
 
-print(generateMatrix(2))
+//print(generateMatrix(2))
+
+//61. 旋转链表
+//给定一个链表，旋转链表，将链表每个节点向右移动 k 个位置，其中 k 是非负数。
+//
+//示例 1:
+//
+//输入: 1->2->3->4->5->NULL, k = 2
+//输出: 4->5->1->2->3->NULL
+//解释:
+//向右旋转 1 步: 5->1->2->3->4->NULL
+//向右旋转 2 步: 4->5->1->2->3->NULL
+//示例 2:
+//
+//输入: 0->1->2->NULL, k = 4
+//输出: 2->0->1->NULL
+//解释:
+//向右旋转 1 步: 2->0->1->NULL
+//向右旋转 2 步: 1->2->0->NULL
+//向右旋转 3 步: 0->1->2->NULL
+//向右旋转 4 步: 2->0->1->NULL
+
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public var val: Int
+ *     public var next: ListNode?
+ *     public init(_ val: Int) {
+ *         self.val = val
+ *         self.next = nil
+ *     }
+ * }
+ */
+func rotateRight(_ head: ListNode?, _ k: Int) -> ListNode? {
+    if head == nil || k == 0 {
+        return head;
+    }
+    //深度
+    var count = 1
+    var kk = k
+    
+    var first : ListNode
+    var taregt : ListNode?
+    var last : ListNode?
+    
+    var tmp = head
+    first = tmp!
+
+    while tmp?.next != nil {
+        count = count + 1
+        tmp = tmp?.next
+    }
+    if count == 1 {
+        return head
+    }
+    kk = k % count
+    if kk == 0 {
+        return head
+    }
+    last = tmp!
+    
+    tmp = first
+
+    var index = 0
+    while tmp?.next != nil {
+        index = index + 1
+        if(index + kk == count) {
+            taregt = (tmp?.next)!
+            tmp?.next = nil;
+            break;
+        }
+        tmp = tmp?.next
+    }
+    last!.next = first
+    
+    return taregt;
+}
+
+var a1 = ListNode(1)
+var a2 = ListNode(2)
+var a3 = ListNode(3)
+var a4 = ListNode(4)
+var a5 = ListNode(5)
+a1.next = a2
+a2.next = a3
+a3.next = a4
+a4.next = a5
+
+var ee = rotateRight(a1, 0)
+print(ee)
+
+
+
+//62.一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+//
+//机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+//
+//问总共有多少条不同的路径？
+//说明：m 和 n 的值均不超过 100。
+//
+//示例 1:
+//
+//输入: m = 3, n = 2
+//输出: 3
+//解释:
+//从左上角开始，总共有 3 条路径可以到达右下角。
+//1. 向右 -> 向右 -> 向下
+//2. 向右 -> 向下 -> 向右
+//3. 向下 -> 向右 -> 向右
+//示例 2:
+//
+//输入: m = 7, n = 3
+//输出: 28
+
+//(x, y) -> z
+//(x+1, y) -> z + (x+1, y-1) //x+1
+//(x, y+1) -> z + (x-1, y+1) //y+1
+//(x-1,y)  -> z - (x, y-1)   //x-1
+//(x, y-1) -> z - (x-1, y)   //y-1
+
+
+public class ListTreeNode {
+    public var x: Int
+    public var y: Int
+    public var left: ListTreeNode?
+    public var right: ListTreeNode?
+    public init(_ x: Int, _ y: Int) {
+        self.x = x
+        self.y = y
+        self.left = nil
+        self.right = nil
+    }
+}
+
+
+class Solution1 {
+    func uniquePaths(_ m: Int, _ n: Int) -> Int {
+//        var count = 0
+//
+//        //生成树
+//        func puductTree(_ node : ListTreeNode) -> ListTreeNode {
+//            if !checkNode(node) {
+//                let left = ListTreeNode(node.x, node.y - 1)
+//                let right = ListTreeNode(node.x - 1, node.y)
+//                if !checkNode(left) {
+//                    node.left = puductTree(left)
+//                } else {
+//                    node.left = left
+//                    count += calculateNode(left)
+//                }
+//                if !checkNode(right) {
+//                    node.right = puductTree(right)
+//                } else {
+//                    node.right = right
+//                    count += calculateNode(right)
+//                }
+//            }
+//            return node
+//        }
+//        //检查改节点是否可以直接计算出值
+//        func checkNode(_ node: ListTreeNode) -> Bool {
+//            return ((node.x < 3) || (node.y < 3))
+//        }
+//        //
+//        func calculateNode(_ node: ListTreeNode) -> Int {
+//            if node.x == 1 || node.y == 1 {
+//                return 1
+//            }
+//            if node.x == 2 {
+//                return node.y
+//            }
+//            if node.y == 2 {
+//                return node.x
+//            }
+//            return 1
+//        }
+//
+//        var targetNode = ListTreeNode(m, n)
+//        if checkNode(targetNode) {
+//            return calculateNode(targetNode)
+//        }
+        var mn = [[Int]](repeating: [Int](repeating: 0, count: n), count: m)
+        for x in 0 ..< n {
+            mn[0][x] = 1
+        }
+        for x in 0 ..< m {
+            mn[x][0] = 1
+        }
+        for i in 1 ..< m {
+            for j in 1 ..< n {
+                mn[i][j] = mn[i-1][j] + mn[i][j-1]
+            }
+        }
+        return mn[m-1][n-1]
+        
+//        targetNode = puductTree(targetNode)
+//        return count
+    }
+}
+
+var tt = Solution1().uniquePaths(23, 12)
+print(tt)
+
+
+
 
 
 
